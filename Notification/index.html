@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+            @keyframes prefix-popout {
+                from { transform: scale(0); opacity: 0.5; }
+                80% { transform: scale(1.05); opacity: 1; }
+                to { transform: scale(1); opacity: 1; }
+            }
+      
+            @keyframes notificationfadein {
+                from { 
+                    opacity: 0; 
+                    transform: scale(0);
+                }
+                to { 
+                    opacity: 1; 
+                    transform: scale(1);
+                }
+            }
+
+            @keyframes move_up_down {
+                0%, 100% {
+                    transform: translateY(-10%);
+                    animation-timing-function: ease-in-out; /* Smooth acceleration and deceleration */
+                }
+                50% {
+                    transform: translateY(-20%);
+                    animation-timing-function: ease-in-out; /* Smooth acceleration and deceleration */
+                }
+            }
+            
+            @keyframes textshadow {
+                from {
+                    text-shadow: 0 0 10px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                }
+                to {
+                    text-shadow: 0 0 15px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                }
+            }
+
+            .loginnortification {
+                font-size: 14px;
+                width: 250px;
+                padding:20px;
+                margin-left: -120px;
+                border-radius: 15px;
+                background: linear-gradient(145deg, rgba(251, 61, 61, 1), rgb(114, 16, 16));
+                color: #fafafa;
+                font-weight: bold;
+                text-align: center;
+                box-shadow: 0px 0px 57px -5px var(--star-shadow);
+                z-index: 999999999;
+            }
+
+
+            .loginanimateOpen {
+                animation: moveOpen 5s;
+                animation-fill-mode: forwards;
+            }
+
+            @keyframes moveOpen {
+                from { transform: translate(0, -100px); }
+                10% { transform: translate(0, 20px); }
+                12% { transform: translate(0, 22px); }
+                16% { transform: translate(0, 20px); }
+                80% { transform: translate(0, 20px); }
+                85% { transform: translate(0, 25px); }
+                to { transform: translate(0, -100px); }
+            }
+        </style>
+</head>
+<body>
+<span class="loginnortification loginanimateOpen">
+{{message}}
+</span>
+</body>
+</html>

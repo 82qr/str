@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+            @keyframes prefix-popout {
+                from {
+                    transform: scale(0);
+                    opacity: 0.5;
+                }
+                80% {
+                    transform: scale(1.05);
+                    opacity: 1;
+                }
+                to {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes prefix-fadein {
+                from {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            @keyframes move_up_down {
+                0%,
+                100% {
+                    transform: translateY(-10%);
+                    animation-timing-function: ease-in-out; /* Smooth acceleration and deceleration */
+                }
+                50% {
+                    transform: translateY(-20%);
+                    animation-timing-function: ease-in-out; /* Smooth acceleration and deceleration */
+                }
+            }
+            @keyframes textshadow {
+                from {
+                    text-shadow: 0 0 10px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                }
+                to {
+                    text-shadow: 0 0 15px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                }
+            }
+
+            .eulaoverlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.6);
+                overflow: hidden;
+                z-index: 999999999;
+                user-select: none; 
+            }
+            .eulamain-header-text {
+                font-size: 15px;
+                font-weight: 700 !important;
+                display: flex;
+                flex-direction: column; /* Change to column to stack the elements vertically */
+                align-items: center;
+                margin-top: 15px;
+                justify-content: center;
+                font-family: "Titillium Web", -apple-system, sans-serif;
+            }
+
+            @supports (background-clip: text) or (-webkit-background-clip: text) {
+                .eulafancy {
+                    font-size: 100px;
+                    background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjI1MCcgaGVpZ2h0PSc5MDAnIGZpbGw9J25vbmUnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PGc+PHBhdGggZmlsbD0nI2VlM2EwMicgZD0nTTAgMGgyMjU1djg5OUgweicvPjxjaXJjbGUgY3g9JzM2NicgY3k9JzIwNycgcj0nMzY2JyBmaWxsPScjNjIxNzA4Jy8+PGNpcmNsZSBjeD0nMTc3Ny41JyBjeT0nMzE4LjUnIHI9JzQ3Ny41JyBmaWxsPScjOTQxQjBDJy8+PGNpcmNsZSBjeD0nMTIxNScgY3k9JzczNycgcj0nMzY2JyBmaWxsPScjQkMzOTA4Jy8+PC9nPjwvc3ZnPg0K");
+                    background-size: 110% auto;
+                    background-position: center;
+                    color: transparent;
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    text-shadow: 0 0 5px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                    animation: textshadow 1s ease-in-out infinite alternate;
+                }
+            }
+
+
+            .eulasp-main {
+                width: 55%;
+                height: 75%;
+                border-radius: 20px;
+                padding: 5px;
+                box-shadow: 0px 0px 82px 22px var(--star-shadow);
+                background-image: linear-gradient(0deg, var(--star-background) 0%, var(--star-background) 60%);
+                opacity: 1;
+                animation: prefix-fadein ease 1s forwards;
+            }
+            .eulasp-main-body {
+                position: relative; /* Ensure that the moving background stays inside the .sp-main-body div */
+                overflow: hidden; /* Hide the overflowing part of the moving background */
+                width: 100%;
+                backdrop-filter: blur(3px); 
+                -webkit-backdrop-filter: blur(3px);
+                height: 100%;
+                border-radius: 20px;
+                background-image: linear-gradient(0deg, rgba(251, 61, 61, 1) 0%, rgb(82, 33, 33) 60%);
+            }
+
+            .eulamoving-bg {
+                animation: move_up_down 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 200%; /* Extend the height to allow movement up and down */
+                background: linear-gradient(0deg, var(--star-background) 0%, rgba(30, 30, 30, 1) 60%);
+                border-radius: 20px;
+                z-index: -1;
+            }
+
+
+            .eulainput-group {
+                bottom: 0;
+                justify-content: inherit;
+                outline: none;
+                text-align: center;
+                /* move the buttons inside apart*/
+                
+            }
+
+            .eulasubmit-button {
+                font-size: 17px;
+                padding: 0.5em 1em;
+                border: transparent;
+                box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.5);
+                background: #2e2e2e;
+                border-radius: 10px;
+                transition: 0.3s;
+                position: relative; /* Set relative positioning */
+                overflow: hidden; /* Hide overflowing content */
+            }
+    
+            .eulasubmit-button span {
+                font-weight: 800;
+                letter-spacing: 2px;
+                background: linear-gradient(90deg, rgba(251, 61, 61, 1) 0%, rgb(211, 42, 42) 60%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                transition: 0.3s;
+            }
+            
+            .eulasubmit-button::before {
+                content: ""; /* Create a pseudo-element for the background */
+                position: absolute;
+                top: 0;
+                left: -100%; /* Move the background off-screen */
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, rgba(251, 61, 61, 1) 0%, rgb(211, 42, 42) 60%);
+                transition: left 0.3s; /* Animate the left position */
+                z-index: -1; /* Place the background behind the text */
+            }
+    
+            .eulasubmit-button:hover::before {
+                left: 0; /* Move the background on hover */
+            }
+            
+            
+
+            #discord-id-input {
+                background-color: #2e2e2e;
+                border-radius: 10px 0 0 10px;
+                border: none;
+                width: 200px;
+                color: white;
+                font-size: 14px;
+                outline: none;
+                text-align: center;
+            }
+
+            ::placeholder {
+                color: rgb(192, 192, 192);
+                font-weight: 300;
+                text-align: center;
+            }
+
+            .eulafullinput {
+                box-shadow: 0px 0px 5px 1px rgb(38, 38, 38);
+                max-width: fit-content;
+                border-radius: 15px;
+                display: flex;
+                justify-content: center;
+                margin-left: 37.5%;
+                padding: 5px;
+                text-align: center;
+                position: fixed;
+                bottom: 15px;
+
+                font-size: 15px;
+                font-weight: 700 !important;
+                display: flex;
+                flex-direction: column; /* Change to column to stack the elements vertically */
+                align-items: center;
+                margin-top: 15px;
+                justify-content: center;
+                font-family: "Titillium Web", -apple-system, sans-serif;
+            }
+
+            .eulasub-text {
+                display: block;
+                text-align: center;
+                font-family: "Titillium Web", -apple-system, sans-serif;
+                color: #ffffff;
+                font-size: 17.5px;
+                font-weight: 700;
+                margin-top: 5px;
+            }
+
+            .eulaloadingpart {
+                flex-grow: 1;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center; /* Add this line to horizontally center the content */
+                white-space: nowrap;
+                margin-top: 15px;
+                font-size: 15px;
+                text-align: center !important;
+            }
+
+            @keyframes prefix-popout {
+                from {
+                    transform: scale(0);
+                    opacity: 0.5;
+                }
+                80% {
+                    transform: scale(1.05);
+                    opacity: 1;
+                }
+                to {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes notificationfadein {
+                from {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            @keyframes move_up_down {
+                0%,
+                100% {
+                    transform: translateY(-10%);
+                    animation-timing-function: ease-in-out; /* Smooth acceleration and deceleration */
+                }
+                50% {
+                    transform: translateY(-20%);
+                    animation-timing-function: ease-in-out; /* Smooth acceleration and deceleration */
+                }
+            }
+
+            @keyframes textshadow {
+                from {
+                    text-shadow: 0 0 10px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                }
+                to {
+                    text-shadow: 0 0 15px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                }
+            }
+
+            .eulanortification {
+                display: block;
+                font-size: 14px;
+                width: 250px;
+                top: 0;
+                left: 50%;
+                padding: 20px;
+                margin-left: -90px;
+                border-radius: 15px;
+                background: linear-gradient(145deg, rgb(144, 20, 20), rgb(144, 20, 20));
+                font-weight: bold;
+                text-align: center;
+                position: fixed;
+                box-shadow: 20px 20px 60px var(--star-shadow), -20px -20px 60px var(--star-shadow);
+                z-index: 999999999;
+            }
+
+            .eulaanimateOpen {
+                animation: moveOpen 5s;
+                animation-fill-mode: forwards;
+            }
+
+            @keyframes moveOpen {
+                from {
+                    transform: translate(0, -100px);
+                }
+                10% {
+                    transform: translate(0, 20px);
+                }
+                12% {
+                    transform: translate(0, 22px);
+                }
+                16% {
+                    transform: translate(0, 20px);
+                }
+                80% {
+                    transform: translate(0, 20px);
+                }
+                85% {
+                    transform: translate(0, 25px);
+                }
+                to {
+                    transform: translate(0, -100px);
+                }
+            }
+            .pl,
+            .pl__worm {
+                animation-duration: 4s;
+                animation-iteration-count: infinite;
+            }
+
+            .pl {
+                animation-name: bump5;
+                animation-timing-function: linear;
+                width: 5em;
+                height: 5em;
+            }
+
+            .pl__ring {
+                stroke: hsla(var(--hue), 10%, 10%, 0.1);
+                transition: stroke 0.3s;
+            }
+
+            .pl__worm {
+                animation-name: worm5;
+                animation-timing-function: cubic-bezier(0.42, 0.17, 0.75, 0.83);
+            }
+
+            /* Animations */
+            @keyframes bump5 {
+                from,
+                42%,
+                46%,
+                51%,
+                55%,
+                59%,
+                63%,
+                67%,
+                71%,
+                74%,
+                78%,
+                81%,
+                85%,
+                88%,
+                92%,
+                to {
+                    transform: translate(0, 0);
+                }
+
+                44% {
+                    transform: translate(1.33%, 6.75%);
+                }
+
+                53% {
+                    transform: translate(-16.67%, -0.54%);
+                }
+
+                61% {
+                    transform: translate(3.66%, -2.46%);
+                }
+
+                69% {
+                    transform: translate(-0.59%, 15.27%);
+                }
+
+                76% {
+                    transform: translate(-1.92%, -4.68%);
+                }
+
+                83% {
+                    transform: translate(9.38%, 0.96%);
+                }
+
+                90% {
+                    transform: translate(-4.55%, 1.98%);
+                }
+            }
+
+            @keyframes worm5 {
+                from {
+                    stroke-dashoffset: 10;
+                }
+
+                25% {
+                    stroke-dashoffset: 295;
+                }
+
+                to {
+                    stroke-dashoffset: 1165;
+                }
+            }
+
+            .eulaclose {
+                font-size: 20px;
+                font-weight: 600;
+                color:#ffffff;
+                
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                display: flex;
+                height: 25px;
+                width: 25px;
+                background-color: #2e2e2e;
+                justify-content: center;
+                line-height: 0.9;
+                transition: 0.3s;
+                border-radius: 50%;
+                
+
+              }
+
+            .eulatextt {
+                display: block;
+                font-family: "Titillium Web", -apple-system, sans-serif;
+                color: #ffffff;
+                font-size: 12px;
+                margin-top: 5px;
+                font-weight: 500;
+                padding-left: 5px;
+            }
+
+        </style>
+</head>
+<body>
+<div class="eulaoverlay">
+<span class="eulaclose">&times;</span>
+<div class="eulasp-main">
+<div class="eulasp-main-body">
+<div class="eulamoving-bg"></div>
+<div class="eulamain-header-text">
+<span class="eulafancy">STAR</span>
+<br/>
+<br/>
+<span class="eulasub-text">
+Since this is your first time using
+<span style="color: rgba(251, 61, 61, 1);">Star</span>
+. Please accept the EULA below.
+</span>
+</div>
+<div class="eulatextt">
+Star Predictor EULA
+<p>End-User License Agreement (EULA) for Star Predictor</p>
+<p>This End-User License Agreement ("EULA") is a legal agreement between you ("User") and Star Predictor for the use of the Star Predictor ("Software"). By installing or using the Software, you agree to be bound by the terms of this EULA.</p>
+<p>1. License Grant: Star Predictor grants you a non-exclusive, non-transferable license to use the Software for personal and non-commercial purposes. This license does not grant you any rights to modify, distribute, or reverse engineer the Software.</p>
+<p>2. Accuracy of Predictions: User acknowledges that the prediction methods employed by the Software are not guaranteed to be 100% accurate. Predictions are based on algorithms and historical data, but gambling outcomes can be inherently unpredictable. User understands that there is a risk of loss associated with using the predictions provided by the Software.</p>
+<p>3. No Responsibility for Losses: Star Predictor shall not be held responsible for any losses, damages, or financial implications incurred as a result of using the Software's predictions. User agrees to use the predictions at their own risk and discretion. Star Predictor does not provide any financial, legal, or investment advice.</p>
+<p>4. User Responsibilities: User agrees to use the Software in compliance with applicable laws and regulations. User shall not use the Software for any unlawful or unethical activities, including but not limited to fraud or cheating.</p>
+<p>5. Termination: Star Predictor reserves the right to terminate this license at any time if User violates the terms of this EULA. Upon termination, User must cease using the Software and delete all copies from their devices.</p>
+<p>6. No Warranty: The Software is provided "as is" without any warranties, whether express or implied. Star Predictor disclaims all warranties, including but not limited to merchantability, fitness for a particular purpose, and non-infringement.</p>
+<p>7. Limitation of Liability: To the extent permitted by law, Star Predictor shall not be liable for any direct, indirect, incidental, consequential, or special damages arising out of or in any way connected with the use or inability to use the Software.</p>
+<p>8. Amendments: Star Predictor may update or modify this EULA from time to time. Continued use of the Software after any changes signifies User's acceptance of the modified terms.</p>
+<p>9. Governing Law: This EULA shall be governed by and construed in accordance with the laws of the United States of America, without regard to its conflict of law principles.</p>
+<p>By installing or using the Software, User agrees to all the terms and conditions of this EULA. If User does not agree with any of the terms, they must not install or use the Software.</p>
+<p>Last edited date: 8/30/2023</p>
+</div>
+<div class="eulafullinput">
+<div class="eulainput-group">
+<button class="eulasubmit-button"><span style="background: linear-gradient(90deg, rgb(77, 251, 61) 0%, rgb(0, 87, 14) 60%); -webkit-background-clip: text;">Accept</span></button>
+<button class="eulasubmit-button"><span style="background: linear-gradient(90deg, rgba(251, 61, 61, 1) 0%, rgb(211, 42, 42) 60%); -webkit-background-clip: text;">Decline</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

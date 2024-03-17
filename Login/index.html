@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+
+            
+
+
+            @keyframes prefix-popout {
+                from {
+                    transform: scale(0);
+                    opacity: 0.5;
+                }
+                80% {
+                    transform: scale(1.05);
+                    opacity: 1;
+                }
+                to {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes prefix-fadein {
+                from {
+                    opacity: 0;
+                    transform: scale(0);
+                    background-color: rgba(0, 0, 0, 0);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                    background-color: rgba(0, 0, 0, 0.5);
+                }
+            }
+
+            @keyframes move_up_down {
+                0%,
+                100% {
+                    transform: translateY(-10%);
+                    animation-timing-function: ease-in-out; /* Smooth acceleration and deceleration */
+                }
+                50% {
+                    transform: translateY(-20%);
+                    animation-timing-function: ease-in-out; /* Smooth acceleration and deceleration */
+                }
+            }
+            @keyframes textshadow {
+                from {
+                    text-shadow: 0 0 10px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                }
+                to {
+                    text-shadow: 0 0 15px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                }
+            }
+
+            .loginoverlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(3px);
+                -webkit-backdrop-filter: blur(3px); 
+                overflow: hidden;
+                z-index: 999999999;
+                user-select: none; 
+            }
+            .loginmain-header-text {
+                font-size: 15px;
+                font-weight: 700 !important;
+                display: flex;
+                flex-direction: column; /* Change to column to stack the elements vertically */
+                align-items: center;
+                margin-top: 15px;
+                justify-content: center;
+                font-family: "Titillium Web", -apple-system, sans-serif;
+            }
+
+            @supports (background-clip: text) or (-webkit-background-clip: text) {
+                .loginfancy {
+                    font-size: 100px;
+                    background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjI1MCcgaGVpZ2h0PSc5MDAnIGZpbGw9J25vbmUnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PGc+PHBhdGggZmlsbD0nI2VlM2EwMicgZD0nTTAgMGgyMjU1djg5OUgweicvPjxjaXJjbGUgY3g9JzM2NicgY3k9JzIwNycgcj0nMzY2JyBmaWxsPScjNjIxNzA4Jy8+PGNpcmNsZSBjeD0nMTc3Ny41JyBjeT0nMzE4LjUnIHI9JzQ3Ny41JyBmaWxsPScjOTQxQjBDJy8+PGNpcmNsZSBjeD0nMTIxNScgY3k9JzczNycgcj0nMzY2JyBmaWxsPScjQkMzOTA4Jy8+PC9nPjwvc3ZnPg0K");
+                    background-size: 110% auto;
+                    background-position: center;
+                    color: transparent;
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    text-shadow: 0 0 5px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                    animation: textshadow 1s ease-in-out infinite alternate;
+                }
+            }
+
+
+            .loginsp-main {
+                width: 390px;
+                height: 354px;
+                border-radius: 20px;
+                padding: 5px;
+                box-shadow: 0px 0px 50px 2px var(--star-shadow);
+                background-image: linear-gradient(0deg, var(--star-background) 0%, var(--star-background) 60%);
+                opacity: 1;
+                animation: prefix-fadein ease 1s forwards;
+            }
+            .loginsp-main-body {
+                position: relative;
+                overflow: hidden; 
+                backdrop-filter: blur(3px); 
+                -webkit-backdrop-filter: blur(3px);
+                width: 100%;
+                height: 100%;
+                border-radius: 20px;
+                background-image: linear-gradient(0deg, rgba(251, 61, 61, 1) 0%, rgb(82, 33, 33) 60%);
+            }
+
+            .loginmoving-bg {
+                animation: move_up_down 10s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 200%; /* Extend the height to allow movement up and down */
+                background: linear-gradient(0deg, var(--star-background) 0%, rgba(30, 30, 30, 1) 60%);
+                border-radius: 20px;
+                z-index: -1;
+            }
+
+
+            .logininput-group {
+                bottom: 0;
+                display: inherit;
+                justify-content: inherit;
+                outline: none;
+                text-align: center;
+            }
+
+            .loginsubmit-button {
+                font-size: 17px;
+                padding: 0.5em 1em;
+                border: transparent;
+                box-shadow: 0px 0px 2px 0 rgba(0, 0, 0, 0.5);
+                background: #2e2e2e;
+                border-radius: 0 10px 10px 0;
+                transition: 0.3s;
+            }
+
+            .loginsubmit-button:hover {
+                transition: 0.3s;
+                background: linear-gradient(90deg, var(--star-buttons) 0%, var(--star-buttons) 60%);
+                cursor: pointer;
+            }
+
+            .loginsubmit-button:active {
+                transform: scale(0.95) translatex(-0.1px);
+            }
+
+            .loginsubmit-button span {
+                font-weight: 800;
+                letter-spacing: 2px;
+                background: linear-gradient(90deg, var(--star-buttons) 0%, var(--star-buttons) 60%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                transition: 0.3s;
+            }
+
+            .loginsubmit-button:disabled {
+                background: #2e2e2e;
+                cursor: not-allowed;
+            }
+
+
+            .loginsubmit-button:hover span {
+                background: #2e2e2e;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                transition: 0.3s;
+            }
+
+            #discord-id-input {
+                background-color: #2e2e2e;
+                border-radius: 10px 0 0 10px;
+                border: none;
+                width: 200px;
+                color: white;
+                font-size: 14px;
+                outline: none;
+                text-align: center;
+            }
+
+            ::placeholder {
+                color: rgb(192, 192, 192);
+                font-weight: 300;
+                text-align: center;
+            }
+
+            .loginfullinput {
+                box-shadow: 0px 0px 150px 1px rgb(38, 38, 38);
+                max-width: fit-content;
+                border-radius: 15px;
+                display: flex;
+                justify-content: center;
+                margin-left: 5em;
+                padding: 5px;
+                text-align: center;
+                position: fixed;
+                bottom: 15px;
+            }
+
+            .loginsub-text {
+                display: block;
+                text-align: center;
+                font-family: "Titillium Web", -apple-system, sans-serif;
+                color: #ffffff;
+                font-size: 17.5px;
+                font-weight: 700;
+                margin-top: 5px;
+            }
+
+            .loginloadingpart {
+                flex-grow: 1;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center; /* Add this line to horizontally center the content */
+                white-space: nowrap;
+                margin-top: 15px;
+                font-size: 15px;
+                text-align: center !important;
+            }
+
+            @keyframes prefix-popout {
+                from {
+                    transform: scale(0);
+                    opacity: 0.5;
+                }
+                80% {
+                    transform: scale(1.05);
+                    opacity: 1;
+                }
+                to {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+
+            @keyframes notificationfadein {
+                from {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            @keyframes move_up_down {
+                0%,
+                100% {
+                    transform: translateY(-10%);
+                    animation-timing-function: ease-in-out; /* Smooth acceleration and deceleration */
+                }
+                50% {
+                    transform: translateY(-20%);
+                    animation-timing-function: ease-in-out; /* Smooth acceleration and deceleration */
+                }
+            }
+
+            @keyframes textshadow {
+                from {
+                    text-shadow: 0 0 10px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                }
+                to {
+                    text-shadow: 0 0 15px rgba(255, 0, 0, 0.4); /* Add the text shadow with the specified color and intensity */
+                }
+            }
+
+            .loginnortification {
+                display: block;
+                font-size: 14px;
+                width: 250px;
+                top: 0;
+                left: 50%;
+                padding: 20px;
+                margin-left: -90px;
+                border-radius: 15px;
+                background: linear-gradient(145deg, rgb(144, 20, 20), rgb(144, 20, 20));
+                font-weight: bold;
+                text-align: center;
+                position: fixed;
+                box-shadow: 20px 20px 60px var(--star-shadow), -20px -20px 60px var(--star-shadow);
+                z-index: 999999999;
+            }
+
+            .loginanimateOpen {
+                animation: moveOpen 5s;
+                animation-fill-mode: forwards;
+            }
+
+            @keyframes moveOpen {
+                from {
+                    transform: translate(0, -100px);
+                }
+                10% {
+                    transform: translate(0, 20px);
+                }
+                12% {
+                    transform: translate(0, 22px);
+                }
+                16% {
+                    transform: translate(0, 20px);
+                }
+                80% {
+                    transform: translate(0, 20px);
+                }
+                85% {
+                    transform: translate(0, 25px);
+                }
+                to {
+                    transform: translate(0, -100px);
+                }
+            }
+            .pl,
+            .pl__worm {
+                animation-duration: 4s;
+                animation-iteration-count: infinite;
+            }
+
+            .pl {
+                animation-name: bump5;
+                animation-timing-function: linear;
+                width: 5em;
+                height: 5em;
+            }
+
+            .pl__ring {
+                stroke: hsla(var(--hue), 10%, 10%, 0.1);
+                transition: stroke 0.3s;
+            }
+
+            .pl__worm {
+                animation-name: worm5;
+                animation-timing-function: cubic-bezier(0.42, 0.17, 0.75, 0.83);
+            }
+
+            /* Animations */
+            @keyframes bump5 {
+                from,
+                42%,
+                46%,
+                51%,
+                55%,
+                59%,
+                63%,
+                67%,
+                71%,
+                74%,
+                78%,
+                81%,
+                85%,
+                88%,
+                92%,
+                to {
+                    transform: translate(0, 0);
+                }
+
+                44% {
+                    transform: translate(1.33%, 6.75%);
+                }
+
+                53% {
+                    transform: translate(-16.67%, -0.54%);
+                }
+
+                61% {
+                    transform: translate(3.66%, -2.46%);
+                }
+
+                69% {
+                    transform: translate(-0.59%, 15.27%);
+                }
+
+                76% {
+                    transform: translate(-1.92%, -4.68%);
+                }
+
+                83% {
+                    transform: translate(9.38%, 0.96%);
+                }
+
+                90% {
+                    transform: translate(-4.55%, 1.98%);
+                }
+            }
+
+            @keyframes worm5 {
+                from {
+                    stroke-dashoffset: 10;
+                }
+
+                25% {
+                    stroke-dashoffset: 295;
+                }
+
+                to {
+                    stroke-dashoffset: 1165;
+                }
+            }
+
+            .loginclose {
+                font-size: 20px;
+                font-weight: 600;
+                color:#ffffff;
+                
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                display: flex;
+                height: 25px;
+                width: 25px;
+                background-color: #2e2e2e;
+                justify-content: center;
+                line-height: 0.9;
+                transition: 0.3s;
+                border-radius: 50%;
+                
+
+              }
+
+        </style>
+</head>
+<body>
+<div class="loginoverlay">
+<span class="loginclose">&times;</span>
+<div class="loginsp-main">
+<div class="loginsp-main-body">
+<div class="loginmoving-bg"></div>
+<div class="loginmain-header-text">
+<span class="loginfancy">STAR</span>
+<br/>
+<br/>
+<span class="loginsub-text">
+Please login to use
+<span style="color: var(--star-buttons)">Star</span>
+</span>
+</div>
+<div class="loginloadingpart">
+Waiting for input...
+</div>
+<div class="loginfullinput">
+<div class="logininput-group">
+<input placeholder="Enter your Discord ID" type="text" id="discord-id-input" maxlength="26" />
+<button class="loginsubmit-button"><span>Auth</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
